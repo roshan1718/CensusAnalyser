@@ -64,7 +64,7 @@ public class CensusAnalyser {
         } catch (RuntimeException e) {
             if(e.getMessage().contains("header!"))
                 throw new CensusAnalyserException(e.getMessage(),
-                        CensusAnalyserException.ExceptionType.INVALID_FILE_TYPE);
+                        CensusAnalyserException.ExceptionType.INVALID_FILE_HEADER);
 
             throw new CensusAnalyserException(e.getMessage(),
                     CensusAnalyserException.ExceptionType.INVALID_FILE_DATA);
