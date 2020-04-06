@@ -25,7 +25,9 @@ public class CensusAnalyserTest {
             CensusAnalyser censusAnalyser = new CensusAnalyser();
             int numOfRecords = censusAnalyser.loadIndiaCensusData(INDIA_CENSUS_CSV_FILE_PATH);
             Assert.assertEquals(29,numOfRecords);
-        } catch (CensusAnalyserException e) { }
+        } catch (CensusAnalyserException e) {
+            e.printStackTrace();
+        }
     }
 
     @Test
@@ -78,7 +80,7 @@ public class CensusAnalyserTest {
         try {
             CensusAnalyser censusAnalyser = new CensusAnalyser();
             int numOfRecords = censusAnalyser.loadIndiaStateCode(INDIA_STATE_CODE_FILE_PATH);
-            Assert.assertEquals(29,numOfRecords);
+            Assert.assertEquals(37,numOfRecords);
         } catch (CensusAnalyserException e) {
             e.printStackTrace();
         }

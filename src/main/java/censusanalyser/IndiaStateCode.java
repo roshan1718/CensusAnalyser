@@ -7,11 +7,9 @@ public class IndiaStateCode {
     @CsvBindByName(column = "SrNo",required = true)
     public String srNo;
 
-    @CsvBindByName(column = "State",required = true)
-    public String state;
+    @CsvBindByName(column = "StateName",required = true)
+    public String statename;
 
-    @CsvBindByName(column = "Name",required = false)
-    public String name;
 
     @CsvBindByName(column = "TIN",required = true)
     public String tin;
@@ -23,8 +21,7 @@ public class IndiaStateCode {
     public String toString() {
         return "com.bridgelabz.censusanalyserproject.IndianStateCode {"+
                 "SrNo='" + srNo + '\'' +
-                " ,State='" + state + '\'' +
-                " ,Name='" + name + '\'' +
+                " ,StateName='" + statename + '\'' +
                 " ,TIN='" + tin + '\'' +
                 " ,StateCode='" + stateCode + '\'' +
                 '}';
