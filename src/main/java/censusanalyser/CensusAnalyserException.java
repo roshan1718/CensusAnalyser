@@ -6,7 +6,8 @@ public class CensusAnalyserException extends Exception {
     }
 
     enum ExceptionType {
-        CENSUS_FILE_PROBLEM,INVALID_FILE_TYPE ,WRONG_CSV_FILE_TYPE ,CENSUS_FILE_DATA,INVALID_FILE_DATA ,INVALID_FILE_HEADER ;
+        CENSUS_FILE_PROBLEM,INVALID_FILE_TYPE ,
+        WRONG_FILE_DELIMITER,WRONG_FILE_HEADER,UNABLE_TO_PARSE ;
     }
 
     ExceptionType type;
@@ -16,8 +17,4 @@ public class CensusAnalyserException extends Exception {
         this.type = type;
     }
 
-    public CensusAnalyserException(String message, ExceptionType type, Throwable cause) {
-        super(message, cause);
-        this.type = type;
-    }
 }
