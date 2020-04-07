@@ -7,9 +7,9 @@ import java.io.Reader;
 import java.nio.file.Paths;
 import java.util.Iterator;
 
-public class CsvFileBuilder {
+public class CsvFileBuilder extends IcsvBuilder {
 
-    <E> Iterator<E> getCSVFileIterator(Reader reader, Class<E> csvClass) throws CensusAnalyserException {
+   public  <E> Iterator<E> getCSVFileIterator(Reader reader, Class<E> csvClass) throws CensusAnalyserException {
         try {
             CsvToBeanBuilder<E> csvToBeanBuilder = new CsvToBeanBuilder<>(reader);
             csvToBeanBuilder.withType(csvClass);
