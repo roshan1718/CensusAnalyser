@@ -15,28 +15,31 @@ public class CensusAnalyser {
     public int loadIndiaCensusData(String csvFilePath) throws CensusAnalyserException {
         this.checkValidCvsFile(csvFilePath);
         try (Reader reader = Files.newBufferedReader(Paths.get(csvFilePath))) {
-            IcsvBuilder csvBuilder = CSVBuilderFactory.createCSVBuilder();
-
-            Iterator<IndiaCensusCSV> censusCSVIterator =  new CsvFileBuilder().getCSVFileIterator(reader, IndiaCensusCSV.class);
+            CsvFileBuilder csvBuilder = (CsvFileBuilder) CSVBuilderFactory.createCSVBuilder();
+            Iterator<IndiaCensusCSV> censusCSVIterator = csvBuilder.getCSVFileIterator(reader, IndiaCensusCSV.class);
             return this.getCount(censusCSVIterator);
         } catch (IOException e) {
             throw new CensusAnalyserException(e.getMessage(),
                     CensusAnalyserException.ExceptionType.CENSUS_FILE_PROBLEM);
+        } catch (CSVBuilderException e) {
+            throw new CensusAnalyserException(e.getMessage(),e.type.name());
         }
     }
 
-    public int loadIndiaStateData(String csvFilePath) throws CensusAnalyserException {
+    public int loadStateCode(String csvFilePath) throws CensusAnalyserException {
         this.checkValidCvsFile(csvFilePath);
+
         try (Reader reader = Files.newBufferedReader(Paths.get(csvFilePath))) {
-            Iterator<IndiaStateCode> censusCSVIterator = new CsvFileBuilder().getCSVFileIterator(reader, IndiaStateCode.class);
+            IcsvBuilder csvBuilder = CSVBuilderFactory.createCSVBuilder();
+            Iterator<IndiaStateCode> censusCSVIterator = csvBuilder.getCSVFileIterator(reader, IndiaStateCode.class);
             return this.getCount(censusCSVIterator);
         } catch (IOException e) {
             throw new CensusAnalyserException(e.getMessage(),
                     CensusAnalyserException.ExceptionType.CENSUS_FILE_PROBLEM);
+        } catch (CSVBuilderException e) {
+            throw new CensusAnalyserException(e.getMessage(),e.type.name());
         }
-
     }
-
 
     public void checkValidCvsFile(String csvFilePath) throws CensusAnalyserException{
         if( !csvFilePath.contains(".csv")){
@@ -45,10 +48,12 @@ public class CensusAnalyser {
         }
     }
 
-    private <T> int getCount(Iterator<T> iterator) {
-        Iterable<T> iterable = () -> iterator;
-        int numberOfEnteries = (int)StreamSupport.stream(iterable.spliterator(), false).count();
-        return numberOfEnteries;
+    private <E> int getCount(Iterator<E> iterator) {
+        Iterable<E> iterable = () -> iterator;
+        int namOfEateries = (int) StreamSupport.stream(iterable.spliterator(), false).count();
+        return namOfEateries;
     }
 
 }
+
+

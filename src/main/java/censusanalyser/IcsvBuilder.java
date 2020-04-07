@@ -4,8 +4,10 @@ import java.io.Reader;
 import java.util.Iterator;
 
 public class IcsvBuilder {
-    public <T> Iterator<T> getCSVFileIterator(Reader reader, Class<T> csvClass) throws CensusAnalyserException {
+    public <E> Iterator<E> getCSVFileIterator(Reader reader, Class<E> csvClass) throws CSVBuilderException, CensusAnalyserException {
         return null;
     }
 
 }
+
+
