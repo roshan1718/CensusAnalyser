@@ -12,6 +12,7 @@ import java.io.Reader;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.Iterator;
+import java.util.List;
 import java.util.stream.StreamSupport;
 
 public class CensusAnalyser {
@@ -19,8 +20,8 @@ public class CensusAnalyser {
         this.checkValidCvsFile(csvFilePath);
         try (Reader reader = Files.newBufferedReader(Paths.get(csvFilePath))) {
             CsvBuilder csvBuilder = ( CsvBuilder) CSVBuilderFactory.createCSVBuilder();
-            Iterator<IndiaCensusCSV> censusCSVIterator = csvBuilder.getCSVFileIterator(reader, IndiaCensusCSV.class);
-            return this.getCount(censusCSVIterator);
+            List<IndiaCensusCSV> csvFileList = csvBuilder.getCSVFileList(reader, IndiaCensusCSV.class);
+            return csvFileList.size();
         } catch (IOException e) {
             throw new CsvFileBuilderException(e.getMessage(),
                     CsvFileBuilderException.ExceptionType.CENSUS_FILE_PROBLEM);
@@ -34,8 +35,8 @@ public class CensusAnalyser {
 
         try (Reader reader = Files.newBufferedReader(Paths.get(csvFilePath))) {
             IcsvBuilder csvBuilder = CSVBuilderFactory.createCSVBuilder();
-            Iterator<IndiaStateCode> censusCSVIterator = csvBuilder.getCSVFileIterator(reader, IndiaStateCode.class);
-            return this.getCount(censusCSVIterator);
+            List<IndiaStateCode> csvFileList = csvBuilder.getCSVFileList(reader, IndiaStateCode.class);
+            return csvFileList.size();
         } catch (IOException e) {
             throw new CsvFileBuilderException(e.getMessage(),
                     CsvFileBuilderException.ExceptionType.CENSUS_FILE_PROBLEM);
