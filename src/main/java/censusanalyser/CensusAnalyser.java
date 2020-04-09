@@ -22,7 +22,7 @@ public class CensusAnalyser<E> {
 
 
     public CensusAnalyser(String path,Class<E> csvClass) {
-        this.CSV_FILE_PATH=path;
+
         this.csvStatesCensusMap = new HashMap<>();
         this.StateDataCSVMap = new HashMap<>();
     }
@@ -32,9 +32,9 @@ public class CensusAnalyser<E> {
     }
 
 
-    public int loadIndiaCensusData() throws CsvFileBuilderException {
+    public int loadIndiaCensusData(String path) throws CsvFileBuilderException {
 
-        try (Reader reader = Files.newBufferedReader(Paths.get(CSV_FILE_PATH))) {
+        try (Reader reader = Files.newBufferedReader(Paths.get(path))) {
             CsvBuilder csvBuilder = (CsvBuilder) CSVBuilderFactory.createCSVBuilder();
             Iterator<IndiaCensusCSV> StateCensusCSVIterator = csvBuilder.getCSVFileIterator(reader, IndiaCensusCSV.class);
             while (StateCensusCSVIterator.hasNext()) {
@@ -53,9 +53,9 @@ public class CensusAnalyser<E> {
         }
     }
 
-    public int loadStateCode( )throws CsvFileBuilderException {
+    public int loadStateCode(String path )throws CsvFileBuilderException {
 
-        try (Reader reader = Files.newBufferedReader(Paths.get(CSV_FILE_PATH))) {
+        try (Reader reader = Files.newBufferedReader(Paths.get(path))) {
             CsvBuilder csvBuilder = (CsvBuilder) CSVBuilderFactory.createCSVBuilder();
             Iterator<IndiaStateCode> StateCensusCSVIterator = csvBuilder.getCSVFileIterator(reader, IndiaStateCode.class);
             while (StateCensusCSVIterator.hasNext()) {
