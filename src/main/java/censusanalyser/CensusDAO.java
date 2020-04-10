@@ -9,7 +9,7 @@ public class CensusDAO {
     public int density;
     public String StateCode;
     public String TIN;
-    public String SrNo;
+    public int SrNo;
 
 
 
