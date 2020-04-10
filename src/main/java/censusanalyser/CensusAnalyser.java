@@ -2,14 +2,17 @@ package censusanalyser;
 import com.bl.csvbuilder.CsvBuilder;
 import com.bl.csvbuilder.CsvFileBuilderException;
 import com.google.gson.Gson;
+import com.opencsv.bean.CsvToBean;
+import com.opencsv.bean.CsvToBeanBuilder;
+
 import java.io.IOException;
 import java.io.Reader;
-import java.nio.file.Files;
-import java.nio.file.NoSuchFileException;
 import java.nio.file.Paths;
 import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
+
+import static java.nio.file.Files.newBufferedReader;
 
 public class CensusAnalyser<E, numberOfRecords> {
 
@@ -31,7 +34,7 @@ public class CensusAnalyser<E, numberOfRecords> {
         if (!extension.equals("csv")) {
             throw new CensusAnalyserException("Given File Not Found ", CensusAnalyserException.ExceptionType.INVALID_FILE_TYPE);
         }
-        try (Reader reader = Files.newBufferedReader(Paths.get(path))) {
+        try (Reader reader = newBufferedReader(Paths.get(path))) {
             CsvBuilder csvBuilder = (CsvBuilder) CSVBuilderFactory.createCSVBuilder();
             Iterator<IndiaCensusCSV> StateCensusCSVIterator = csvBuilder.getCSVFileIterator(reader, IndiaCensusCSV.class);
             Iterable<IndiaCensusCSV> stateCensusIterable = () -> StateCensusCSVIterator;
@@ -52,10 +55,11 @@ public class CensusAnalyser<E, numberOfRecords> {
         return numberOfRecords;
     }
 
+
     public int loadStateCode(String path ) throws CensusAnalyserException  {
         int numberOfRecords = 0;
 
-        try (Reader reader = Files.newBufferedReader(Paths.get(path))) {
+        try (Reader reader = newBufferedReader(Paths.get(path))) {
             CsvBuilder csvBuilder = (CsvBuilder) CSVBuilderFactory.createCSVBuilder();
             Iterator<IndiaStateCode> StateCensusCSVIterator = csvBuilder.getCSVFileIterator(reader, IndiaStateCode.class);
             Iterable<IndiaStateCode> stateCodeIterable = () -> StateCensusCSVIterator;
@@ -73,6 +77,39 @@ public class CensusAnalyser<E, numberOfRecords> {
         }
         return (numberOfRecords);
     }
+
+
+    //METHOD TO LOAD STATE CODE CSV DATA AND COUNT NUMBER OF RECORD IN CSV FILE
+    public int loadUSCensusCSVData(String path) throws CensusAnalyserException
+    {
+        int noOfRecords = 0;
+        try (Reader reader = newBufferedReader(Paths.get(path)))
+        {
+            CsvToBean<USCensusCSV> usCensusCSV = new CsvToBeanBuilder(reader)
+                    .withType(USCensusCSV.class)
+                    .withIgnoreLeadingWhiteSpace(true)
+                    .build();
+            Iterator<USCensusCSV> usCensusIterator = usCensusCSV.iterator();
+            while (usCensusIterator.hasNext())
+            {
+                USCensusCSV USCensus = usCensusIterator.next();
+                System.out.println("State ID: " + USCensus.StateID);
+                System.out.println("State Name : " + USCensus.State);
+                System.out.println("Area : " + USCensus.Area);
+                System.out.println("Housing units : " + USCensus.HousingUnits);
+                System.out.println("Water area : " + USCensus.WaterArea);
+                System.out.println("Land Area : " + USCensus.LandArea);
+                System.out.println("Density : " + USCensus.PopulationDensity);
+                System.out.println("Population : " + USCensus.Population);
+                System.out.println("Housing Density : " + USCensus.HousingDensity);
+                noOfRecords++;
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return noOfRecords;
+    }
+
 
     public String SortedCensusData( ) throws CensusAnalyserException {
         if (list == null || list.size() == 0) {

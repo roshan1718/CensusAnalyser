@@ -22,6 +22,8 @@ public class CensusAnalyserTest {
     private static final String WRONG_STATE_FILE_DELIMITER = "./src/test/resources/IndiaStateInvalidDelimeter.csv";
     private static final String WRONG_STATE_FILE_HEADER = "./src/test/resources/IndiaStateInvalidHeader.csv";
 
+    private static final String US_FILE_PATH = "./src/test/resources/USCensusData.csv";
+
     CensusAnalyser censusAnalyser = new CensusAnalyser();
 
 
@@ -175,6 +177,13 @@ public class CensusAnalyserTest {
         } catch ( CensusAnalyserException e) {
             e.getStackTrace();
         }
+    }
+
+    // Test Case For Load Records From USCensusCSV Data
+    @Test
+    public void givenUSCensusData_WhenTrue_RecordShouldMatch() throws  CensusAnalyserException {
+         int noOfRecords = censusAnalyser.loadUSCensusCSVData(US_FILE_PATH);
+        Assert.assertEquals(51, noOfRecords);
     }
 
 
