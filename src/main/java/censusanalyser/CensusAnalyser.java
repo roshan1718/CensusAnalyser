@@ -24,11 +24,11 @@ public class CensusAnalyser<E> {
     public CensusAnalyser() {
 
     }
-    public int loadIndiaCensusData(String path) throws CsvFileBuilderException {
+    public int loadIndiaCensusData(String path) throws CensusAnalyserException  {
         int numberOfRecords = 0;
         String extension = path.substring(path.lastIndexOf(".") + 1);
         if (!extension.equals("csv")) {
-            throw new CsvFileBuilderException("Given File Not Found ", CsvFileBuilderException.ExceptionType.INVALID_FILE_TYPE);
+            throw new CensusAnalyserException("Given File Not Found ", CensusAnalyserException.ExceptionType.INVALID_FILE_TYPE);
         }
         try (Reader reader = Files.newBufferedReader(Paths.get(path))) {
             CsvBuilder csvBuilder = (CsvBuilder) CSVBuilderFactory.createCSVBuilder();
@@ -40,16 +40,17 @@ public class CensusAnalyser<E> {
             }
             numberOfRecords = map.size();
         } catch (NoSuchFileException e) {
-            throw new CsvFileBuilderException("Given File Not Found ",
-                    CsvFileBuilderException.ExceptionType.INVALID_FILE_TYPE);
-        } catch (RuntimeException | IOException e) {
-            throw new CsvFileBuilderException("Check Delimiters Or Headers",
-                    CsvFileBuilderException.ExceptionType.WRONG_FILE_DELIMITER_AND_HEADER);
+            throw new CensusAnalyserException("Given File Not Found ",
+                    CensusAnalyserException.ExceptionType.INVALID_FILE_TYPE);
+        } catch (RuntimeException | IOException | CsvFileBuilderException e) {
+            throw new CensusAnalyserException("Check Delimiters Or Headers",
+                    CensusAnalyserException.ExceptionType.WRONG_FILE_DELIMITER_AND_HEADER);
+
         }
         return numberOfRecords;
     }
 
-    public int loadStateCode(String path )throws CsvFileBuilderException {
+    public int loadStateCode(String path ) throws CensusAnalyserException  {
         int numberOfRecords = 0;
 
         try (Reader reader = Files.newBufferedReader(Paths.get(path))) {
@@ -65,20 +66,20 @@ public class CensusAnalyser<E> {
             }
             numberOfRecords = map.size();
 
-        } catch (IOException e) {
-            throw new CsvFileBuilderException("Given File Not Found ",
-                    CsvFileBuilderException.ExceptionType.INVALID_FILE_TYPE);
+        } catch (IOException | CsvFileBuilderException e) {
+            throw new CensusAnalyserException("Given File Not Found ",
+                    CensusAnalyserException.ExceptionType.INVALID_FILE_TYPE);
         } catch (RuntimeException e) {
-            throw new CsvFileBuilderException("Check Delimiters Or Headers",
-                    CsvFileBuilderException.ExceptionType.WRONG_FILE_DELIMITER_AND_HEADER);
+            throw new CensusAnalyserException("Check Delimiters Or Headers",
+                    CensusAnalyserException.ExceptionType.WRONG_FILE_DELIMITER_AND_HEADER);
         }
         return (numberOfRecords);
     }
 
-    public String SortedCensusData( ) throws CsvFileBuilderException {
+    public String SortedCensusData( ) throws CensusAnalyserException {
         if (list == null || list.size() == 0) {
-            throw new CsvFileBuilderException( "Census Data Not Found",
-                    CsvFileBuilderException.ExceptionType.NO_CENSUS_DATA);
+            throw new CensusAnalyserException( "Census Data Not Found",
+                    CensusAnalyserException.ExceptionType.NO_CENSUS_DATA);
         }
         Comparator<CensusDAO> comparator = Comparator.comparing(CensusDAO -> CensusDAO.population);
         this.sortData(comparator);
@@ -88,11 +89,11 @@ public class CensusAnalyser<E> {
 
 
 
-    public String SortedPopulationWiseData() throws CsvFileBuilderException {
+    public String SortedPopulationWiseData() throws CensusAnalyserException {
         if (list == null || list.size() == 0)
         {
-            throw new CsvFileBuilderException( "Census Data Not Found",
-                    CsvFileBuilderException.ExceptionType.NO_CENSUS_DATA);
+            throw new CensusAnalyserException( "Census Data Not Found",
+                    CensusAnalyserException.ExceptionType.NO_CENSUS_DATA);
         }
         Comparator<CensusDAO> censusComparator = Comparator.comparing(CensusDAO -> CensusDAO.population);
         this.sortData(censusComparator);
@@ -101,9 +102,9 @@ public class CensusAnalyser<E> {
         return sortedStateCodeJson;
     }
     //METHOD FOR SORTING STATE CENSUS DATA CSV FILE BY DENSITY WISE
-    public String sortedDataDensityWise() throws CsvFileBuilderException {
+    public String sortedDataDensityWise() throws CensusAnalyserException {
         if (list == null || list.size() == 0) {
-            throw new CsvFileBuilderException( "Census Data Not Found", CsvFileBuilderException.ExceptionType.NO_CENSUS_DATA);
+            throw new CensusAnalyserException( "Census Data Not Found", CensusAnalyserException.ExceptionType.NO_CENSUS_DATA);
         }
         Comparator<CensusDAO> censusComparator = Comparator.comparing(censusDAO -> censusDAO.density);
         this.sortData(censusComparator);
@@ -112,9 +113,9 @@ public class CensusAnalyser<E> {
         return sortedStateCensusJson;
     }
     //METHOD FOR SORTING STATE CENSUS DATA CSV FILE BY AREA WISE
-    public String sortedDataAreaWise() throws CsvFileBuilderException {
+    public String sortedDataAreaWise() throws CensusAnalyserException {
         if (list == null || list.size() == 0) {
-            throw new CsvFileBuilderException( "Census Data Not Found", CsvFileBuilderException.ExceptionType.NO_CENSUS_DATA);
+            throw new CensusAnalyserException( "Census Data Not Found", CensusAnalyserException.ExceptionType.NO_CENSUS_DATA);
         }
         Comparator<CensusDAO> censusComparator = Comparator.comparing(censusDAO -> censusDAO.area);
         this.sortData(censusComparator);

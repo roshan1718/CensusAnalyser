@@ -1,7 +1,4 @@
 package censusanalyser;
-
-import com.bl.csvbuilder.CsvFileBuilderException;
-
 public class CensusAnalyserException extends Exception {
 
     public CensusAnalyserException(String message, String name) {
@@ -11,8 +8,8 @@ public class CensusAnalyserException extends Exception {
 
 
     enum ExceptionType {
-        CENSUS_FILE_PROBLEM,INVALID_FILE_TYPE ,
-        WRONG_FILE_DELIMITER,WRONG_FILE_HEADER,UNABLE_TO_PARSE ;
+        CENSUS_FILE_PROBLEM,INVALID_FILE_TYPE ,WRONG_FILE_DELIMITER_AND_HEADER,
+        UNABLE_TO_PARSE ,NO_CENSUS_DATA;
     }
 
     ExceptionType type;
