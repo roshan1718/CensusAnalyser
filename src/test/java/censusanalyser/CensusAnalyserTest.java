@@ -42,7 +42,7 @@ public class CensusAnalyserTest {
             exceptionRule.expect(CensusAnalyserException.class);
             censusAnalyser.loadIndiaCensusData(WRONG_CSV_FILE_PATH);
         } catch (CsvFileBuilderException e) {
-            Assert.assertEquals(CsvFileBuilderException.ExceptionType.WRONG_FILE_DELIMITER,e.type);
+            Assert.assertEquals(CsvFileBuilderException.ExceptionType.WRONG_FILE_DELIMITER_AND_HEADER,e.type);
         }
     }
 
@@ -62,7 +62,7 @@ public class CensusAnalyserTest {
         try {
              censusAnalyser.loadIndiaCensusData(WRONG_CSV_FILE_DELIMITER);
         } catch (CsvFileBuilderException e) {
-            Assert.assertEquals(CsvFileBuilderException.ExceptionType.WRONG_FILE_DELIMITER, e.type);
+            Assert.assertEquals(CsvFileBuilderException.ExceptionType.WRONG_FILE_DELIMITER_AND_HEADER, e.type);
         }
     }
 
@@ -71,7 +71,7 @@ public class CensusAnalyserTest {
         try{
              censusAnalyser.loadIndiaCensusData(WRONG_CSV_FILE_HEADER);
         }catch (CsvFileBuilderException e) {
-            Assert.assertEquals(CsvFileBuilderException.ExceptionType.WRONG_FILE_DELIMITER,e.type);
+            Assert.assertEquals(CsvFileBuilderException.ExceptionType.WRONG_FILE_DELIMITER_AND_HEADER,e.type);
         }
     }
     //TEST FOR INDIA STATE CODE
@@ -98,7 +98,7 @@ public class CensusAnalyserTest {
         try {
              censusAnalyser.loadStateCode(WRONG_STATE_FILE_TYPE);
         } catch (CsvFileBuilderException e) {
-            Assert.assertEquals(CsvFileBuilderException.ExceptionType.WRONG_FILE_DELIMITER, e.type);
+            Assert.assertEquals(CsvFileBuilderException.ExceptionType.WRONG_FILE_DELIMITER_AND_HEADER, e.type);
         }
     }
     @Test
@@ -106,7 +106,7 @@ public class CensusAnalyserTest {
         try {
              censusAnalyser.loadStateCode(WRONG_STATE_FILE_DELIMITER);
         } catch (CsvFileBuilderException e) {
-            Assert.assertEquals(CsvFileBuilderException.ExceptionType.WRONG_FILE_DELIMITER, e.type);
+            Assert.assertEquals(CsvFileBuilderException.ExceptionType.WRONG_FILE_DELIMITER_AND_HEADER, e.type);
         }
     }
 
@@ -115,7 +115,7 @@ public class CensusAnalyserTest {
         try {
              censusAnalyser.loadStateCode(WRONG_STATE_FILE_HEADER);
         } catch (CsvFileBuilderException e) {
-            Assert.assertEquals(CsvFileBuilderException.ExceptionType.WRONG_FILE_DELIMITER, e.type);
+            Assert.assertEquals(CsvFileBuilderException.ExceptionType.WRONG_FILE_DELIMITER_AND_HEADER, e.type);
         }
     }
 

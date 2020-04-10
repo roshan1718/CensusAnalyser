@@ -47,7 +47,7 @@ public class CensusAnalyser<E> {
                     CsvFileBuilderException.ExceptionType.INVALID_FILE_TYPE);
         } catch (RuntimeException | IOException e) {
             throw new CsvFileBuilderException("Check Delimiters Or Headers",
-                    CsvFileBuilderException.ExceptionType.WRONG_FILE_DELIMITER);
+                    CsvFileBuilderException.ExceptionType.WRONG_FILE_DELIMITER_AND_HEADER);
         }
         return numberOfRecords;
     }
@@ -69,7 +69,7 @@ public class CensusAnalyser<E> {
                     CsvFileBuilderException.ExceptionType.INVALID_FILE_TYPE);
         } catch (RuntimeException e) {
             throw new CsvFileBuilderException("Check Delimiters Or Headers",
-                    CsvFileBuilderException.ExceptionType.WRONG_FILE_DELIMITER);
+                    CsvFileBuilderException.ExceptionType.WRONG_FILE_DELIMITER_AND_HEADER);
         }
     }
 
