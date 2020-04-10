@@ -11,21 +11,19 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 public class CensusAnalyser<E> {
-    private String CSV_FILE_PATH;
 
     List<CensusDAO> list = null;
     Map<String, CensusDAO> map = null;
 
     public CensusAnalyser(String path, Class<E> csvClass) {
         this.map = new HashMap<>();
+        this.list = new ArrayList<>();
+
 
     }
-
     public CensusAnalyser() {
 
     }
-
-
     public int loadIndiaCensusData(String path) throws CsvFileBuilderException {
         int numberOfRecords = 0;
         String extension = path.substring(path.lastIndexOf(".") + 1);
@@ -36,8 +34,7 @@ public class CensusAnalyser<E> {
             CsvBuilder csvBuilder = (CsvBuilder) CSVBuilderFactory.createCSVBuilder();
             Iterator<IndiaCensusCSV> StateCensusCSVIterator = csvBuilder.getCSVFileIterator(reader, IndiaCensusCSV.class);
             while (StateCensusCSVIterator.hasNext()) {
-                IndiaCensusCSV indiaCensusCSV = StateCensusCSVIterator.next();
-                CensusDAO censusDAO = new CensusDAO(StateCensusCSVIterator.next());
+                 CensusDAO censusDAO = new CensusDAO(StateCensusCSVIterator.next());
                 this.map.put(censusDAO.state, censusDAO);
                 list = map.values().stream().collect(Collectors.toList());
             }
@@ -53,6 +50,7 @@ public class CensusAnalyser<E> {
     }
 
     public int loadStateCode(String path )throws CsvFileBuilderException {
+        int numberOfRecords = 0;
 
         try (Reader reader = Files.newBufferedReader(Paths.get(path))) {
             CsvBuilder csvBuilder = (CsvBuilder) CSVBuilderFactory.createCSVBuilder();
@@ -61,9 +59,12 @@ public class CensusAnalyser<E> {
                 IndiaStateCode stateDataCSV = StateCensusCSVIterator.next();
                 CensusDAO censusDAO=map.get(stateDataCSV.statename);
                 this.map.put(censusDAO.StateCode, censusDAO);
-                list = map.values().stream().collect(Collectors.toList()); }
-            int numberOfRecords = map.size();
-            return (numberOfRecords);
+                if (censusDAO == null)
+                    continue;
+                censusDAO.StateCode = stateDataCSV.stateCode;
+            }
+            numberOfRecords = map.size();
+
         } catch (IOException e) {
             throw new CsvFileBuilderException("Given File Not Found ",
                     CsvFileBuilderException.ExceptionType.INVALID_FILE_TYPE);
@@ -71,6 +72,7 @@ public class CensusAnalyser<E> {
             throw new CsvFileBuilderException("Check Delimiters Or Headers",
                     CsvFileBuilderException.ExceptionType.WRONG_FILE_DELIMITER_AND_HEADER);
         }
+        return (numberOfRecords);
     }
 
     public String SortedCensusData( ) throws CsvFileBuilderException {
@@ -98,7 +100,17 @@ public class CensusAnalyser<E> {
         String sortedStateCodeJson = new Gson().toJson(list);
         return sortedStateCodeJson;
     }
-
+    //METHOD FOR SORTING STATE CENSUS DATA CSV FILE BY DENSITY WISE
+    public String sortedDataDensityWise() throws CsvFileBuilderException {
+        if (list == null || list.size() == 0) {
+            throw new CsvFileBuilderException( "Census Data Not Found", CsvFileBuilderException.ExceptionType.NO_CENSUS_DATA);
+        }
+        Comparator<CensusDAO> censusComparator = Comparator.comparing(censusDAO -> censusDAO.density);
+        this.sortData(censusComparator);
+        Collections.reverse(list);
+        String sortedStateCensusJson = new Gson().toJson(list);
+        return sortedStateCensusJson;
+    }
 
 
     private void sortData(Comparator<CensusDAO> csvComparator)

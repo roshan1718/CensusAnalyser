@@ -154,6 +154,18 @@ public class CensusAnalyserTest {
             e.getStackTrace();
         }
     }
+    @Test
+    public void givenStateCensusData_WhenSortByDensity_ReturnSortedResult() throws CsvFileBuilderException{
+         try {
+             censusAnalyser.loadIndiaCensusData(INDIA_CENSUS_CSV_FILE_PATH);
+            String sortedCensusData = censusAnalyser.sortedDataDensityWise();
+            IndiaCensusCSV[] stateCensusCSV = new Gson().fromJson(sortedCensusData, IndiaCensusCSV[].class);
+            Assert.assertEquals(1102, stateCensusCSV[0].densityPerSqKm);
+        } catch ( CsvFileBuilderException e) {
+            e.getStackTrace();
+        }
+    }
+
 
 
 }
