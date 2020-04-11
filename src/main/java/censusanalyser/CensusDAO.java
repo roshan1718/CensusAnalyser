@@ -6,7 +6,7 @@ public class CensusDAO {
     public String StateName;
     public long Population;
     public long AreaInSqKm;
-    public int DensityPerSqKm;
+    public long DensityPerSqKm;
     public String StateCode;
     public float HousingDensity;
     public int TIN;
@@ -33,5 +33,12 @@ public class CensusDAO {
         this.AreaInSqKm= usCensusCSV.Area;
         this.DensityPerSqKm = usCensusCSV.PopulationDensity;
         this.HousingDensity = usCensusCSV.HousingDensity;
+    }
+    public  Object getCensusModel(CensusAnalyser.Country country) {
+        if (country.equals(CensusAnalyser.Country.INDIA))
+            return new IndiaCensusCSV(StateName, Population, AreaInSqKm, DensityPerSqKm);
+        if (country.equals(CensusAnalyser.Country.US))
+            return new USCensusCSV(StateCode, StateName, Population, AreaInSqKm, DensityPerSqKm);
+        return null;
     }
 }

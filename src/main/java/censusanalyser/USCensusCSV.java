@@ -31,15 +31,19 @@ public class USCensusCSV {
     @CsvBindByName(column = "Housing Density")
     public float HousingDensity;
 
-    public USCensusCSV(String name,long population,long area,int populationDensity){
-        StateName=name;
-        Population = population;
-        Area = area;
-        PopulationDensity = populationDensity;
+    public USCensusCSV(String stateId, String state, long population, long totalArea, long populationDensity) {
+        this.StateID = stateId;
+        this.StateName = state;
+        this.Population = population;
+        this.Area = totalArea;
+        this.PopulationDensity = (int) populationDensity;
     }
+
+
+
     @Override
     public String toString() {
-        return "USCensusCSV{" + "State=" + StateName + "Population=" + Population + ", Area=" + Area + ", PopulationDensity=" + PopulationDensity + '}';
+        return "USCensusCSV{ StateID= "+ StateID + "State=" + StateName + "Population=" + Population + ", Area=" + Area + ", PopulationDensity=" + PopulationDensity + '}';
     }
 
 }
