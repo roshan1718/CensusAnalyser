@@ -34,7 +34,7 @@ public class CensusDAO {
         this.DensityPerSqKm = usCensusCSV.PopulationDensity;
         this.HousingDensity = usCensusCSV.HousingDensity;
     }
-    public  Object getCensusModel(CensusAnalyser.Country country) {
+    public  Object getCensusDTO(CensusAnalyser.Country country) {
         if (country.equals(CensusAnalyser.Country.INDIA))
             return new IndiaCensusCSV(StateName, Population, AreaInSqKm, DensityPerSqKm);
         if (country.equals(CensusAnalyser.Country.US))
