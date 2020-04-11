@@ -37,7 +37,7 @@ public class CensusAnalyser <E>{
             throw new CensusAnalyserException( "Census Header Not Found",
                     CensusAnalyserException. ExceptionType. WRONG_FILE_DELIMITER_AND_HEADER);
         }
-        Comparator<CensusDAO> censusComparator = Comparator.comparing(censusDAO -> censusDAO.State);
+        Comparator<CensusDAO> censusComparator = Comparator.comparing(censusDAO -> censusDAO.StateName);
         this.sortData(censusComparator);
         String sortedStateCensusJson = new Gson().toJson(censusList);
         return sortedStateCensusJson;

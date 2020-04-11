@@ -3,32 +3,32 @@ package censusanalyser;
 public class CensusDAO {
 
     public String StateID;
-    public String State;
-    public String Population;
-    public String AreaInSqKm;
-    public String DensityPerSqKm;
+    public String StateName;
+    public long Population;
+    public long AreaInSqKm;
+    public int DensityPerSqKm;
     public String StateCode;
-    public String HousingDensity;
-    public String TIN;
+    public float HousingDensity;
+    public int TIN;
     public int SrNo;
 
 
 
     public CensusDAO(IndiaCensusCSV indiaCensusCSV) {
-        this.State = indiaCensusCSV.state;
+        this.StateName = indiaCensusCSV.StateName;
         this.Population = indiaCensusCSV.population;
         this.AreaInSqKm = indiaCensusCSV. areaInSqKm;
         this.DensityPerSqKm = indiaCensusCSV. densityPerSqKm;
     }
     public CensusDAO(IndiaStateCode stateDataCSV) {
-        this.State = stateDataCSV.statename;
+        this.StateName = stateDataCSV.statename;
         this.SrNo = stateDataCSV.srNo;
         this.TIN = stateDataCSV.tin;
         this.StateCode = stateDataCSV.stateCode;
     }
     public CensusDAO(USCensusCSV usCensusCSV){
         this.StateID = usCensusCSV.StateID;
-        this.State = usCensusCSV.State;
+        this.StateName = usCensusCSV.StateName;
         this.Population = usCensusCSV.Population;
         this.AreaInSqKm= usCensusCSV.Area;
         this.DensityPerSqKm = usCensusCSV.PopulationDensity;

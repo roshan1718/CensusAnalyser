@@ -12,7 +12,7 @@ public class IndiaStateCode {
 
 
     @CsvBindByName(column = "TIN",required = true)
-    public String tin;
+    public int tin;
 
     @CsvBindByName(column = "StateCode",required = true)
     public static String stateCode;
