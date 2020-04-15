@@ -38,14 +38,11 @@ public abstract class CensusAdapter {
                         .forEach(censusCSV -> censusDAOMap.put(censusCSV.StateName, new CensusDAO(censusCSV)));
             }
             return censusDAOMap;
-        } catch (NoSuchFileException e) {
-            throw new CensusAnalyserException("Given File Not Found ",
-                    CensusAnalyserException.ExceptionType. INVALID_FILE_TYPE);
         } catch (RuntimeException e) {
             throw new CensusAnalyserException("Check Delimiters Or Headers",
                     CensusAnalyserException.ExceptionType.WRONG_FILE_DELIMITER_AND_HEADER);
         } catch (IOException e) {
-            e.getStackTrace();
+            e.printStackTrace();
         } catch (CsvFileBuilderException e) {
             e.printStackTrace();
         }

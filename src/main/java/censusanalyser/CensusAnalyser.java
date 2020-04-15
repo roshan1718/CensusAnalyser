@@ -7,9 +7,6 @@ import java.util.stream.Collectors;
 
 public class CensusAnalyser <E>{
 
-
-
-
     public enum Country {INDIA, US}
     public enum SortingMode { STATENAME, POPULATION, DENSITY, AREA }
 
@@ -23,7 +20,8 @@ public class CensusAnalyser <E>{
         this.country = country;
     }
     //METHOD TO LOAD RECORDS OF CSV FILE
-    public int loadIndiaCensusData(Country country, String... csvFilePath) throws  CensusAnalyserException
+    public int loadIndiaCensusData(Country country, String... csvFilePath)
+            throws  CensusAnalyserException
     {
         censusDAOMap = CensusAdapterFactory.getCensusData(country, csvFilePath);
         censusList = censusDAOMap.values().stream().collect(Collectors.toList());
